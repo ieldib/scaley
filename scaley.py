@@ -1,7 +1,7 @@
 #app.py
 import os
 from flask import Flask
-app = Flask(__name__)
+scaley = Flask(__name__)
 
 @app.route('/')
 @app.roue('/home')
@@ -11,7 +11,6 @@ def home():
 @app.route('/install')
 def install():
     open('config.cfg', 'w+')
-
 
 @app.route('/config')
 def config():
@@ -31,6 +30,5 @@ def migrate():
     # migrate stuff here
     pass
 
-
 if __name__ == '__main__':
-    app.run()
+    scaley.run()
