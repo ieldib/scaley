@@ -1,6 +1,13 @@
 import ConfigParser
+from db import *
 
-config = ConfigParser.ConfigParser()
+
+
+
+def default_config_write():
+    with configdb_connect as connection:
+        c = connection.cursor()
+        c.execute('''SQL STATEMENTS''')
 
 
 
