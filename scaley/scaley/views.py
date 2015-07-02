@@ -1,7 +1,6 @@
 #app.py
 import os
-from flask import Flask
-scaley = Flask(__name__)
+from scaley import scaley 
 
 @app.route('/')
 @app.roue('/home')
@@ -31,5 +30,3 @@ def migrate():
     return render_template('migrate.html')
 
 
-if __name__ == '__main__':
-    scaley.run()
