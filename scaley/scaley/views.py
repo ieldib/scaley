@@ -1,12 +1,12 @@
-#app.py
+#scaley.py
 import os
-from scaley import scaley 
+from scaley import app 
 
 @app.route('/')
-@app.roue('/home')
+@app.route('/home')
 def home():
     #add code to check if installed, if not forward to /install
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/install')
 def install():
