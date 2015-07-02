@@ -15,8 +15,6 @@ def default_config_write():
                        ]
         c.executemany("INSERT INTO CLOUDCREDS VALUES (?, ?)", defaultcreds)
 
-
-
 def update_config_write(value):
     with configdb_connect as connection:
         c = connection.cursor()

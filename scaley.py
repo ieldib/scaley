@@ -6,29 +6,26 @@ scaley = Flask(__name__)
 @app.route('/')
 @app.roue('/home')
 def home():
-    return 'Welcome to Scaley !'
+    return render_template('home.html')
 
 @app.route('/install')
 def install():
-    open('config.cfg', 'w+')
+    #add code to check and see if already installed and pass if cond met
+    return render_template('install.html')
 
 @app.route('/config')
 def config():
-    #.... config stuff
-    #aws credentials e.t.c.
-    pass
+    return render_template('hello.html')
+
 
 @app.route('/stats')
 def stats():
-    # stats stuff
-    # display cloudwatch metrics
-    #display openstack metrics e.t.c.
-    pass
+    return render_template('stats.html')
 
 @app.route('/migrate')
 def migrate():
-    # migrate stuff here
-    pass
+    return render_template('migrate.html')
+
 
 if __name__ == '__main__':
     scaley.run()
