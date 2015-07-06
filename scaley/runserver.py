@@ -7,5 +7,5 @@ if __name__ == '__main__':
         PORT = int(environ.get('SERVER_PORT', '8080'))
     except ValueError:
         PORT = 5555
+    app.config['DEBUG'] = True
     app.run(HOST, PORT)
-

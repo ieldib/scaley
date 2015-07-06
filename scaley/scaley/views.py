@@ -1,6 +1,7 @@
 #scaley.py
 import os
-from scaley import app 
+from flask import render_template
+from scaley import app
 
 @app.route('/')
 @app.route('/home')
@@ -28,5 +29,3 @@ def stats():
 def migrate():
     #add code to allow some migration tasks from AWS to other cloud providers
     return render_template('migrate.html')
-
-

@@ -1,13 +1,9 @@
 <html>
   <head>
-    {% if title %}
-    <title>{{ title }} - Scaley</title>
-    {% else %}
     <title>Welcome to Scaley</title>
-    {% endif %}
   </head>
   <body>
-    <div>Scaley: <a href="/index">Home</a></div>
+    <div>Scaley: <a href="/home">Home</a></div>
     <hr>
     {% block content %}{% endblock %}
   </body>
