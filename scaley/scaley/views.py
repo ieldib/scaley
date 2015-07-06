@@ -29,3 +29,8 @@ def stats():
 def migrate():
     #add code to allow some migration tasks from AWS to other cloud providers
     return render_template('migrate.html')
+
+@app.route('/logs')
+def migrate():
+    #add code to display logs from services like cloudtrail (AWS)
+    return render_template('logs.html')
