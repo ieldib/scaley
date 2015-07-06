@@ -31,6 +31,11 @@ def migrate():
     return render_template('migrate.html')
 
 @app.route('/logs')
-def migrate():
+def logs():
     #add code to display logs from services like cloudtrail (AWS)
     return render_template('logs.html')
+
+@app.route('/about')
+def about():
+    #add code to display logs from services like cloudtrail (AWS)
+    return render_template('about.html')
