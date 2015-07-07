@@ -27,9 +27,23 @@ for driver in drivers:
     instances += driver.list_nodes()
     locations += driver.list_locations()
     keypairs += driver.ex_describe_all_keypairs()
-    print sorted(instances, key=getKey)
-    print locations
-    print keypairs
+    for i in instances:
+        #print i
+        instance_id = i.id
+        name = i.name
+        public_ip = i.public_ips
+        private_ip = i.private_ips
+        state = i.state
+        provider = 'Amazon EC2'
+        print instance_id, name, public_ip, private_ip, state, provider
+        #for l in locations:
+            #location_name = l.name
+            #print location_name
+            #for k in keypairs:
+                #print k
+        #print sorted(i, key='name')
+    #print locations
+    #print keypairs
 #print keypairs
 #left in for debugging
 # [ <Node: provider=Amazon, status=RUNNING, name=bob, ip=1.2.3.4.5>,
