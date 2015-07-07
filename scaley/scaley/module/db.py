@@ -1,11 +1,7 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
-from . import scaley
-
-
-scaley.app.config['SQLALCHEMY_DATABASE_URI']  = 'sqlite:////../scaley.db'
-
+db = SQLAlchemy(app)
 class CloudConfig(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     awsaccesskeyid = db.Column(db.String(80), unique=True)
