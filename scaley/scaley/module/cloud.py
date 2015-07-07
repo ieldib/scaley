@@ -2,52 +2,101 @@
 ##as boilerpate
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
+import libcloud.security
+
 from config import config_read
 
-def getKey(Node):
-    return Node.private_ips
+#the following variables need to be pulled from a configuration file or from a config.db
+#will need to have encryption built around this
 
+#aws ec2
 EC2_ACCESS_ID = ''
 EC2_SECRET_KEY = ''
-#RACKSPACE_USER = config_read(RACKSPACEUSER)
-#RACKSPACE_KEY = config_read(RACKSPACEKEY)
+#rackspace
+RACKSPACE_USER = ''
+RACKSPACE_KEY = ''
+#openstack
+OS_USERNAME = ''
+OS_PASSWORD = ''
+OPENSTACKURL = ''
+#vcloud
+VC_USERNAME = ''
+VC_PASSWORD = ''
+VCHOST = ''
 
-EC2Driver = get_driver(Provider.EC2)
-#RackspaceDriver = get_driver(Provider.RACKSPACE)
 
-# drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY),
-#            RackspaceDriver(RACKSPACE_USER, RACKSPACE_KEY)]
+class EC2:
+    def ec2_compute_details(self, EC2_ACCESS_ID, EC2_SECRET_KEY):
+    EC2Driver = get_driver(Provider.EC2)
+    drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY)]
+    instances = []
+    locations = []
+    for driver in drivers:
+        instances += driver.list_nodes()
+        locations += driver.list_locations()
+        keypairs += driver.ex_describe_all_keypairs()
+        for i in instances:
+            instance_id = i.id
+            name = i.name
+            public_ip = i.public_ips
+            private_ip = i.private_ips
+            state = i.state
+            provider = 'Amazon EC2'
+            return instance_id, name, public_ip, private_ip, state, provider
 
-drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY)]
-nodes = []
-instances = []
-locations = []
-keypairs = []
-for driver in drivers:
-    instances += driver.list_nodes()
-    locations += driver.list_locations()
-    keypairs += driver.ex_describe_all_keypairs()
-    for i in instances:
-        #print i
-        instance_id = i.id
-        name = i.name
-        public_ip = i.public_ips
-        private_ip = i.private_ips
-        state = i.state
-        provider = 'Amazon EC2'
-        print instance_id, name, public_ip, private_ip, state, provider
-        #for l in locations:
-            #location_name = l.name
-            #print location_name
-            #for k in keypairs:
-                #print k
-        #print sorted(i, key='name')
-    #print locations
-    #print keypairs
-#print keypairs
-#left in for debugging
-# [ <Node: provider=Amazon, status=RUNNING, name=bob, ip=1.2.3.4.5>,
-#   <Node: provider=Rackspace, status=REBOOT, name=korine, ip=6.7.8.9>, ... ]
+class RSPACE:
+    def rs_compute_details(self, RACKSPACE_USER, RACKSPACE_KEY):
+        RackspaceDriver = get_driver(Provider.RACKSPACE)
+        drivers = [RackspaceDriver(RACKSPACE_USER, RACKSPACE_KEY)]
+        instances = []
+        locations = []
+        for driver in drivers:
+            instances += driver.list_nodes()
+            locations += driver.list_locations()
+            for i in instances:
+                instance_id = i.id
+                name = i.name
+                public_ip = i.public_ips
+                private_ip = i.private_ips
+                state = i.state
+                provider = 'Rackspace'
+                return instance_id, name, public_ip, private_ip, state, provider
 
-# Reboot all nodes named 'test'
-#[node.reboot() for node in nodes if node.name == 'test']
+class OPENSTACK:
+    def openstack_compute_details(self, OS_USERNAME, OS_PASSWORD, OPENSTACKURL):
+        OpenStack = get_driver(Provider.OPENSTACK)
+        driver = OpenStack(USERNAME, PASSWORD,
+                   ex_force_auth_url= OPENSTACKURL, #set to 'https://nova-api.trystack.org:5443' to test
+                   ex_force_auth_version='2.0_password')
+        instances = []
+        locations = []
+        for driver in drivers:
+            instances += driver.list_nodes()
+            locations += driver.list_locations() #some of this will be driver specific and may not work
+            for i in instances:
+                instance_id = i.id
+                name = i.name
+                public_ip = i.public_ips
+                private_ip = i.private_ips
+                state = i.state
+                provider = "Open Stack"
+                return instance_id, name, public_ip, private_ip, state, provider
+
+class VCLOUD:
+    def vcloud_compute_details(self, VC_USERNAME, VC_PASSWORD, VCHOST):
+        vcloud = get_driver(Provider.VCLOUD)
+        driver = vcloud(USERNAME, PASSWORD,
+                host=VCHOST, api_version='1.5')
+        instances = []
+        locations = []
+        for driver in drivers:
+            instances += driver.list_nodes()
+            locations += driver.list_nodes() #not sure if this will be applicable to this driver
+            for i in instances:
+                instance_id = i.id
+                name = i.name
+                public_ip = i.public_ips
+                private_ip = i.private_ips
+                state = i.state
+                provider = "vCloud"
+                return instance_id, name, public_ip, private_ip, state, provider
