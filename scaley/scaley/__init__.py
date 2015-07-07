@@ -1,2 +1,4 @@
 from flask import Flask
-from scaley import app
+app = Flask(__name__)
+
+import scaley.views

@@ -1,5 +1,7 @@
 from os import environ
 from scaley import app
+from scaley.module import db
+
 
 if __name__ == '__main__':
     HOST = environ.get('SERVER_HOST', 'localhost')
@@ -8,4 +10,5 @@ if __name__ == '__main__':
     except ValueError:
         PORT = 5555
     app.config['DEBUG'] = True  #need to move these config lines to modules.config
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////db/scaley.db'
     app.run(HOST, PORT)

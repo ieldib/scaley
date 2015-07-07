@@ -1,5 +1,12 @@
+import sys
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+
+sys.path.insert(0, "../../")
+
+from scaley import app
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////../db/scaley.db'
 
 db = SQLAlchemy(app)
 class CloudConfig(db.Model):
