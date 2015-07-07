@@ -4,7 +4,7 @@ from db import *
 def default_config_write():
     with configdb_connect as connection:
         c = connection.cursor()
-        defaultcreds = [('AWSACCESSKYEID', 'NONE')
+        defaultcreds = [('AWSACCESSKEYID', 'NONE')
                         ('AWSACCESSSECRET', 'NONE')
                         ('RACKSPACEACCESSID', 'NONE')
                         ('RACKSPACESECRET', 'NONE')
@@ -23,6 +23,6 @@ def update_config_write(value):
 def config_read(value):
     with configdb_connect as connection:
         c = connection.cursor()
-        c.execute("SELECT ALL FROM CLOUDCREDS")
+        c.execute("SELECT * FROM CLOUDCREDS WHERE (?, ?)", value)
         rows = c.fetchall()
         return rows

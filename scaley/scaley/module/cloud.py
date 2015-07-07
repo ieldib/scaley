@@ -4,21 +4,34 @@ from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
 from config import config_read
 
-EC2_ACCESS_ID = config_read(AWSACCESSKEYID)
-EC2_SECRET_KEY = config_read(AWSSECRET)
-RACKSPACE_USER = config_read(RACKSPACEUSER)
-RACKSPACE_KEY = config_read(RACKSPACEKEY)
+def getKey(Node):
+    return Node.private_ips
+
+EC2_ACCESS_ID = ''
+EC2_SECRET_KEY = ''
+#RACKSPACE_USER = config_read(RACKSPACEUSER)
+#RACKSPACE_KEY = config_read(RACKSPACEKEY)
 
 EC2Driver = get_driver(Provider.EC2)
-RackspaceDriver = get_driver(Provider.RACKSPACE)
+#RackspaceDriver = get_driver(Provider.RACKSPACE)
 
-drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY),
-           RackspaceDriver(RACKSPACE_USER, RACKSPACE_KEY)]
+# drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY),
+#            RackspaceDriver(RACKSPACE_USER, RACKSPACE_KEY)]
 
+drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY)]
 nodes = []
+instances = []
+locations = []
+keypairs = []
 for driver in drivers:
-    nodes += driver.list_nodes()
-print nodes #left in for debugging
+    instances += driver.list_nodes()
+    locations += driver.list_locations()
+    keypairs += driver.ex_describe_all_keypairs()
+    print sorted(instances, key=getKey)
+    print locations
+    print keypairs
+#print keypairs
+#left in for debugging
 # [ <Node: provider=Amazon, status=RUNNING, name=bob, ip=1.2.3.4.5>,
 #   <Node: provider=Rackspace, status=REBOOT, name=korine, ip=6.7.8.9>, ... ]
 
