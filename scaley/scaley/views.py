@@ -3,6 +3,7 @@ import os
 from flask import render_template
 from scaley import app
 
+
 @app.route('/')
 @app.route('/home')
 def home():

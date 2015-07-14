@@ -6,7 +6,7 @@ sys.path.insert(0, "../../")
 
 from scaley import app
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////../db/scaley.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////scaley/scaley/db/scaley.db'
 
 db = SQLAlchemy(app)
 class CloudConfig(db.Model):
@@ -39,4 +39,4 @@ class CloudConfig(db.Model):
         self.uid = uid
 
     def __repr__(self):
-        return '<User %r>' % self.uid
+        return 'CloudConfig(uid=%s) % self.uid'
