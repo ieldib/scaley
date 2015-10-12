@@ -40,17 +40,15 @@ VCHOST = ''
 
 class EC2:
     @celery.task
-    def ec2_compute_details(self, EC2_ACCESS_ID, EC2_SECRET_KEY):
+    def ec2_compute_details(EC2_ACCESS_ID, EC2_SECRET_KEY):
         EC2Driver = get_driver(Provider.EC2)
         drivers = [EC2Driver(EC2_ACCESS_ID, EC2_SECRET_KEY)]
         instances = []
         locations = []
-        self.instances = instances
-        self.locations = locations
         for driver in drivers:
             instances += driver.list_nodes()
             locations += driver.list_locations()
-            keypairs += driver.ex_describe_all_keypairs()
+            #keypairs += driver.ex_describe_all_keypairs()
             for i in instances:
                 instance_id = i.id
                 name = i.name
@@ -62,13 +60,11 @@ class EC2:
 
 class RSPACE:
     @celery.task
-    def rs_compute_details(self, RACKSPACE_USER, RACKSPACE_KEY):
+    def rs_compute_details(RACKSPACE_USER, RACKSPACE_KEY):
         RackspaceDriver = get_driver(Provider.RACKSPACE)
         drivers = [RackspaceDriver(RACKSPACE_USER, RACKSPACE_KEY)]
         instances = []
         locations = []
-        self.instances = instances
-        self.locations = locations
         for driver in drivers:
             instances += driver.list_nodes()
             locations += driver.list_locations()
