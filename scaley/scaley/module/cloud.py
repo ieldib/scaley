@@ -10,8 +10,6 @@ import libcloud.security
 from celery import Celery
 #from config import config_read
 
-
-
 sys.path.insert(0, "../../")
 
 from scaley.module import db
@@ -21,7 +19,6 @@ celery = Celery('app', broker='amqp://guest@localhost//') #need to move config o
 #the following variables need to be pulled from a configuration file or
 #from a config.db
 #will need to have encryption built around this
-
 #aws ec2
 EC2_ACCESS_ID = ''
 EC2_SECRET_KEY = ''
@@ -56,7 +53,7 @@ class EC2:
                 private_ip = i.private_ips
                 state = i.state
                 provider = 'Amazon EC2'
-                return instance_id, name, public_ip, private_ip, state, provider
+                return instance_id, name, public_ip, private_ip, state, provideri think
 
 class RSPACE:
     @celery.task
@@ -79,15 +76,13 @@ class RSPACE:
 
 class OPENSTACK:
     @celery.task
-    def openstack_compute_details(self, OS_USERNAME, OS_PASSWORD, OPENSTACKURL):
+    def openstack_compute_details(OS_USERNAME, OS_PASSWORD, OPENSTACKURL):
         OpenStack = get_driver(Provider.OPENSTACK)
         driver = OpenStack(USERNAME, PASSWORD,
                    ex_force_auth_url= OPENSTACKURL, #set to 'https://nova-api.trystack.org:5443' to test
                    ex_force_auth_version='2.0_password')
         instances = []
         locations = []
-        self.instances = instances
-        self.locations = locations
         for driver in drivers:
             instances += driver.list_nodes()
             locations += driver.list_locations() #some of this will be driver specific and may not work
@@ -102,14 +97,12 @@ class OPENSTACK:
 
 class VCLOUD:
     @celery.task
-    def vcloud_compute_details(self, VC_USERNAME, VC_PASSWORD, VCHOST):
+    def vcloud_compute_details(VC_USERNAME, VC_PASSWORD, VCHOST):
         vcloud = get_driver(Provider.VCLOUD)
         driver = vcloud(USERNAME, PASSWORD,
                 host=VCHOST, api_version='1.5')
         instances = []
         locations = []
-        self.instances = instances
-        self.locations = locations
         for driver in drivers:
             instances += driver.list_nodes()
             locations += driver.list_nodes() #not sure if this will be applicable to this driver
